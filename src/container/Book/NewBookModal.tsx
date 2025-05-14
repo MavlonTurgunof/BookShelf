@@ -11,13 +11,14 @@ import {
   MenuItem,
 } from "@mui/material";
 import request from "../../components/config";
+import CryptoJS from "crypto-js";
 
 function NewBookModal({ openModal, handleModalClose, addBook }: any) {
   const [form, setForm] = useState({
     title: "",
     author: "",
-    pages: "",
-    published: "",
+    pages: 0,
+    published: 0,
     isbn: "",
     coverUrl: "",
     status: "",
@@ -27,14 +28,34 @@ function NewBookModal({ openModal, handleModalClose, addBook }: any) {
     e.preventDefault();
 
     try {
-      const response = await request.post("/books", form);
+      const key = localStorage.getItem("key");
+      const secret = localStorage.getItem("secret");
+
+      if (!key || !secret) {
+        alert("Missing auth credentials. Please sign up first.");
+        return;
+      }
+
+      const method = "POST";
+      const url = "/books";
+      const bodyStr = JSON.stringify(form);
+      const signStr = method + url + bodyStr + secret;
+      const sign = CryptoJS.MD5(signStr).toString();
+
+      const response = await request.post(url, form, {
+        headers: {
+          Key: key,
+          Sign: sign,
+        },
+      });
+
       console.log("Book created:", response.data);
       addBook(response.data);
       setForm({
         title: "",
         author: "",
-        pages: "",
-        published: "",
+        pages: 0,
+        published: 0,
         isbn: "",
         coverUrl: "",
         status: "",
@@ -84,7 +105,9 @@ function NewBookModal({ openModal, handleModalClose, addBook }: any) {
               fullWidth
               placeholder="Enter pages"
               value={form.pages}
-              onChange={(e) => setForm({ ...form, pages: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, pages: Number(e.target.value) })
+              }
             />
           </div>
           <div>
@@ -93,7 +116,9 @@ function NewBookModal({ openModal, handleModalClose, addBook }: any) {
               fullWidth
               placeholder="Enter published date"
               value={form.published}
-              onChange={(e) => setForm({ ...form, published: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, published: Number(e.target.value) })
+              }
             />
           </div>
           <div>

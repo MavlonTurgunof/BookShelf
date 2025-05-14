@@ -18,10 +18,10 @@ type Props = {
   open: boolean;
   onClose: () => void;
   book: Book | null;
-  onUpdate: (updatedBook: Book) => void;
+  updateBook: (updated: Book) => void;
 };
 
-const EditModal = ({ open, onClose, book, onUpdate }: Props) => {
+const EditModal = ({ open, onClose, book, updateBook }: Props) => {
   const [formData, setFormData] = useState<Book | null>(book);
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const EditModal = ({ open, onClose, book, onUpdate }: Props) => {
         },
       });
 
-      onUpdate(response.data);
+      updateBook(response.data);
       onClose();
     } catch (err) {
       console.error("Failed to update book:", err);
@@ -135,7 +135,9 @@ const EditModal = ({ open, onClose, book, onUpdate }: Props) => {
             <label>Status</label>
             <Select
               value={formData.status}
-              onChange={handleChange}
+              onChange={(e) =>
+                setFormData({ ...formData, status: e.target.value })
+              }
               displayEmpty
               inputProps={{ "aria-label": "Status" }}
             >

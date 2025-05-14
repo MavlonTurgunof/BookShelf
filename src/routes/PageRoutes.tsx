@@ -17,5 +17,4 @@ const PageRoutes: React.FC = () => {
     </BrowserRouter>
   );
 };
-
 export default PageRoutes;

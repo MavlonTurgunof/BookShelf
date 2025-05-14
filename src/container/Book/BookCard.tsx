@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaTrash, FaEdit } from "react-icons/fa";
-import DeleteModal from "./DeleteModal";
 
 interface BookCardProps {
   title: string;
   author: string;
-  year: number;
   pages: number;
   published: number;
   isbn: string;
   coverUrl: string;
-  status: "New" | "Reading" | "Finished";
+  status: string;
   onDeleteClick: () => void;
   onEditClick: () => void;
 }

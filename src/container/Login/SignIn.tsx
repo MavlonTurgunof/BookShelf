@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { AuthCard } from "../../../pages/AuthCard";
 import { useNavigate } from "react-router-dom";
-import request from "../../components/config/index";
 
 const Title = styled.h2`
   text-align: center;
@@ -90,13 +89,8 @@ const SignIn: React.FC = () => {
     setLoading(true);
 
     try {
-      await request.post("/signin", {
-        key,
-        secret,
-      });
-      localStorage.setItem("userKey", key);
-      localStorage.setItem("userSecret", secret);
-
+      localStorage.setItem("key", key);
+      localStorage.setItem("secret", secret);
       navigate("/books");
     } catch (err: any) {
       setError(err.response?.data?.message || "Invalid credentials");

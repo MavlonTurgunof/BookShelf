@@ -56,7 +56,7 @@ export const BookList = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [books, setBooks] = useState<any[]>([]);
-  const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
+  const [selectedBookId, setSelectedBookId] = useState<number | null>(null);
   const [EditOpenModal, setEditOpenModal] = useState(false);
   const [bookToEdit, setBookToEdit] = useState<Book | null>(null);
 
@@ -73,7 +73,7 @@ export const BookList = () => {
     setBooks((prev) => prev.map((b) => (b.id === updated.id ? updated : b)));
   };
 
-  const handleOpen = (bookId: string) => {
+  const handleOpen = (bookId: number) => {
     setSelectedBookId(bookId);
     setOpenDelete(true);
   };
@@ -188,10 +188,9 @@ export const BookList = () => {
             </Box>
 
             <GridSection>
-              {mockBooks?.map((book, index) => (
+              {mockBooks?.map((book) => (
                 <BookCard
                   key={book.id}
-                  id={book.id}
                   title={book.title}
                   author={book.author}
                   pages={book.pages}

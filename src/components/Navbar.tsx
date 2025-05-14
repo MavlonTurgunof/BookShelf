@@ -59,7 +59,6 @@ export const Navbar = () => {
               <img src="./img/search-refraction.svg" alt="" />
               <Input
                 placeholder="Search books..."
-                variant="outlined"
                 sx={{ color: "#FEFEFE", width: "264px" }}
               />
             </Box>
